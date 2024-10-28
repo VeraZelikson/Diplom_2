@@ -26,3 +26,15 @@ class ApiService:
     @allure.step('Получить список доступных заказов юзера query = {query}')
     def order_list(query):
         return requests.get(url=Urls.ORDERS_URL, params=query)
+
+    @staticmethod
+    @allure.step('Обновление данных юзера payload = {payload}')
+    def update_user(payload, token):
+        return requests.patch(
+            url=Urls.USER_CHANGE_URL,
+            headers={
+                'Authorization': token,  # Следим за "Bearer "
+                'Content-Type': 'application/json'
+            },
+            json=payload  # важно передать как JSON
+        )
