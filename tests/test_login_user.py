@@ -29,8 +29,7 @@ class TestUserLogin:
             password="wrong_password"
         )
         response = ApiService.login_user(wrong_password_payload)
-        assert (response.status_code == 401
-                and response.json() == ExpectedResponses.LOGIN_INVALID_CREDENTIALS_RESPONSE)
+        assert response.status_code == 401 and response.json() == ExpectedResponses.LOGIN_INVALID_CREDENTIALS_RESPONSE
 
     @allure.title('Авторизация с неверным логином')
     def test_login_with_incorrect_email(self):
@@ -41,7 +40,4 @@ class TestUserLogin:
             password=payload.get("password")
         )
         response = ApiService.login_user(wrong_email_payload)
-        assert (response.status_code == 401
-                and response.json() == ExpectedResponses.LOGIN_INVALID_CREDENTIALS_RESPONSE)
-
-
+        assert response.status_code == 401 and response.json() == ExpectedResponses.LOGIN_INVALID_CREDENTIALS_RESPONSE
