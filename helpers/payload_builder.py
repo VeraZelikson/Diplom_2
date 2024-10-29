@@ -21,3 +21,7 @@ class PayloadBuilder:
         if password is not None:
             payload["password"] = password
         return payload
+
+    @staticmethod
+    def make_create_order_payload(ingredients: list):
+        return {'ingredients': ingredients}
