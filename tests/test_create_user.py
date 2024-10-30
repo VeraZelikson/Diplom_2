@@ -11,6 +11,7 @@ class TestCreatingUser:
     def test_successful_user_registration(self):
         payload = PayloadBuilder.make_user_create_payload()
         response = ApiService.create_user(payload)
+        ApiService.delete_user(ApiService.get_access_token(payload))
         user = response.json().get("user")
         assert (response.status_code == 200
                 and user.get("email") == payload.get("email")
@@ -23,6 +24,7 @@ class TestCreatingUser:
         payload = PayloadBuilder.make_user_create_payload()
         ApiService.create_user(payload)
         response = ApiService.create_user(payload)
+        ApiService.delete_user(ApiService.get_access_token(payload))
         assert response.status_code == 403 and response.json() == ExpectedResponses.CREATE_USER_DUPLICATE_RESPONSE
 
     @pytest.mark.parametrize(

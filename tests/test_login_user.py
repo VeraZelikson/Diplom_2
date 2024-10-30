@@ -1,4 +1,3 @@
-import pytest
 import allure
 
 from helpers.api_service import ApiService
@@ -12,6 +11,7 @@ class TestUserLogin:
         payload = PayloadBuilder.make_user_create_payload()
         ApiService.create_user(payload)
         response = ApiService.login_user(payload)
+        ApiService.delete_user(ApiService.get_access_token(payload))
         user = response.json().get("user")
         assert (response.status_code == 200
                 and response.json().get("success") is True

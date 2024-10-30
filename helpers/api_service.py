@@ -8,7 +8,7 @@ from helpers.urls import Urls
 class ApiService:
 
     @staticmethod
-    def _get_access_token(payload):
+    def get_access_token(payload):
         return ApiService.login_user(
             PayloadBuilder.make_login_payload(
                 email=payload['email'],
@@ -27,10 +27,21 @@ class ApiService:
         return requests.post(url=Urls.USER_LOGIN_URL, data=payload)
 
     @staticmethod
+    @allure.step('Получить инфо о юзере')
+    def get_user_info(token):
+        return requests.get(
+            url=Urls.USER_URL,
+            headers={
+                'Authorization': token,
+                'Content-Type': 'application/json'
+            }
+        )
+
+    @staticmethod
     @allure.step('Обновление данных юзера payload = {payload}')
     def update_user(payload, token):
         return requests.patch(
-            url=Urls.USER_CHANGE_URL,
+            url=Urls.USER_URL,
             headers={
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -42,7 +53,7 @@ class ApiService:
     @allure.step('Удаление пользователя')
     def delete_user(token):
         return requests.delete(
-            url=Urls.USER_CHANGE_URL,
+            url=Urls.USER_URL,
             headers={
                 'Authorization': token,
                 'Content-Type': 'application/json'
